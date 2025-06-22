@@ -1,12 +1,47 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Spotify Alarm</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #111;
+      color: #fff;
+      padding: 2rem;
+    }
+    input, button {
+      display: block;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      width: 100%;
+      font-size: 1rem;
+    }
+    button {
+      background: #1db954;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+    #status {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Spotify Alarm</h1>
+
+  <label>Alarm Time</label>
+  <input type="time" id="alarmTime" />
+
+  <label>Spotify URI</label>
+  <input type="text" id="spotifyUri" placeholder="spotify:track:..." />
+
+  <button id="setAlarmBtn">Set Alarm</button>
+
+  <div id="status"></div>
+
+  <script src="./renderer.js"></script>
+
+</body>
 </html>
