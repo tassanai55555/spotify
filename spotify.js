@@ -97,7 +97,7 @@ async function ensureValidToken() {
   }
 }
 
-function refreshAccessToken() {
+async function refreshAccessToken() {
   return spotifyApi.refreshAccessToken().then(data => {
     spotifyApi.setAccessToken(data.body.access_token);
     tokenExpiration = new Date(Date.now() + data.body.expires_in * 1000);
@@ -112,7 +112,11 @@ function refreshAccessToken() {
 async function playSpotifyTrack(uri) {
   await ensureValidToken();
   const devices = await spotifyApi.getMyDevices();
-  const device = devices.body.devices.find(d => !d.is_restricted);
+  const device = devices.body.devices.find(d =>
+  d.type === 'Computer' &&
+  !d.name.toLowerCase().includes('web') &&
+  !d.is_restricted
+);
 
   if (!device) {
     return console.log("⚠️ No usable Spotify device found");
