@@ -92,3 +92,4 @@ typings/
 out/
 
 tokens.json
+config.json

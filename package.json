@@ -16,6 +16,10 @@
     "name": "tassanai55555",
     "email": "tassanai55555@example.com"
   },
+  "build": {
+    "appId": "com.pung.spotifyalarm",
+    "productName": "Spotify Alarm App"
+  },
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.5.0",

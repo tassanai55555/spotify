@@ -4,12 +4,21 @@ const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 module.exports = {
   packagerConfig: {
     asar: true,
+    icon: './assets/alarm-icon.ico',
+    extraFiles: [
+      {
+        from: 'src/config.json',
+        to: 'config.json' // puts it in root of packaged app
+      }
+    ]
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        name: 'spotify_alarm_app'
+      },
     },
     {
       name: '@electron-forge/maker-zip',

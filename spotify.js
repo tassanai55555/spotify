@@ -1,8 +1,13 @@
-require('dotenv').config();
+
 const SpotifyWebApi = require('spotify-web-api-node');
 const express = require('express');
 const open = require('open').default;
 const fs = require('fs');
+const path = require('path');
+
+const configPath = path.join(__dirname, 'src/config.json');
+const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
+
 
 const app = express();
 const port = 8888;
@@ -15,9 +20,9 @@ const scopes = [
 ];
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: process.env.SPOTIFY_CLIENT_ID,
-  clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: process.env.SPOTIFY_REDIRECT_URI
+  clientId: config.client_id,
+  clientSecret: config.client_secret,
+  redirectUri: config.redirect_uri
 });
 
 function authenticate() {
