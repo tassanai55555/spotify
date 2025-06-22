@@ -77,6 +77,25 @@ function authenticate() {
     console.log(`🌐 Listening on http://127.0.0.1:${port}`);
   });
 }
+async function ensureValidToken() {
+  if (!tokenExpiration || new Date() >= tokenExpiration) {
+    console.log("🔄 Access token expired, refreshing...");
+    const data = await spotifyApi.refreshAccessToken();
+    const newAccessToken = data.body.access_token;
+    const expires_in = data.body.expires_in;
+
+    spotifyApi.setAccessToken(newAccessToken);
+    tokenExpiration = new Date(Date.now() + expires_in * 1000);
+
+    // Also save to tokens.json
+    const tokens = JSON.parse(fs.readFileSync('./tokens.json', 'utf8'));
+    tokens.access_token = newAccessToken;
+    tokens.expire_time = tokenExpiration;
+    fs.writeFileSync('./tokens.json', JSON.stringify(tokens, null, 2));
+
+    console.log("✅ Token refreshed");
+  }
+}
 
 function refreshAccessToken() {
   return spotifyApi.refreshAccessToken().then(data => {
@@ -91,6 +110,7 @@ function refreshAccessToken() {
 }
 
 async function playSpotifyTrack(uri) {
+  await ensureValidToken();
   const devices = await spotifyApi.getMyDevices();
   const device = devices.body.devices.find(d => !d.is_restricted);
 
